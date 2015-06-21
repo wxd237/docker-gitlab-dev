@@ -61,6 +61,7 @@ RUN sudo -u git cp config/database.yml.mysql config/database.yml
 RUN sudo -u git -H chmod o-rwx config/database.yml
 RUN sudo -u git -H sed -i 's/rubygems.org/ruby.taobao.org/g' Gemfile
 RUN sudo -u git -H bundle install --deployment --without development test postgres aws kerberos
+RUN apt-get install -y nginx
 
 
 
