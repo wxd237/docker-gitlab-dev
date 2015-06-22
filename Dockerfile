@@ -43,7 +43,7 @@ RUN  chmod 755 /var/run/redis
 RUN usermod -aG redis git
 
 WORKDIR /home/git
-RUN sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-ce.git -b 7-12-stable gitlab
+RUN sudo -u git -H git clone https://github.com/wxd237/gitlabhq-i18n-cn -b master gitlab
 WORKDIR /home/git/gitlab
 RUN sudo -u git -H cp config/gitlab.yml.example config/gitlab.yml
 
