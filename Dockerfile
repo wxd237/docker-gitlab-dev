@@ -111,5 +111,5 @@ EXPOSE 8080
 #VOLUME ["/var/log/gitlab"]
 
 WORKDIR /home/git/gitlab
-#ENTRYPOINT ["/app/init"]
+ENTRYPOINT ["/app/init"]
 #CMD ["app:start"]
