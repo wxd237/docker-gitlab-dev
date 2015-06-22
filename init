@@ -22,6 +22,8 @@ if [ -d /etc/tmpfiles.d ]; then
 fi
 
 
+sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production
+
 service gitlab start
 service nginx  start
 
