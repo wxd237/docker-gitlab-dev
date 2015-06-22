@@ -12,6 +12,9 @@ UPDATE mysql.user SET password=PASSWORD('git') WHERE user='git';
 EOF
 
 
+sed -i 's/secure password/git/g' /home/git/gitlab/config/database.yml
+sudo -u git -H echo yes|bundle exec rake gitlab:setup RAILS_ENV=production
+
 service redis-server  start
 
 if [ -d /etc/tmpfiles.d ]; then
@@ -19,7 +22,8 @@ if [ -d /etc/tmpfiles.d ]; then
 fi
 
 
-sed -i 's/secure password/git/g' /home/git/gitlab/config/database.yml
+service gitlab start
+service nginx  start
 
 
 

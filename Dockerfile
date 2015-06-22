@@ -72,6 +72,15 @@ RUN sudo -u git -H sed -i 's/rubygems.org/ruby.taobao.org/g' Gemfile
 RUN sudo -u git -H bundle install --deployment --without development test postgres aws kerberos
 RUN apt-get install -y nginx
 
+##Install GitLab Shell
+RUN sudo -u git -H bundle exec rake gitlab:shell:install[v2.6.3] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production
+
+
+RUN cp lib/support/init.d/gitlab /etc/init.d/gitlab
+RUN sudo update-rc.d gitlab defaults 21
+RUN cp lib/support/logrotate/gitlab /etc/logrotate.d/gitlab
+#RUN sudo -u git -H echo yes|bundle exec rake gitlab:setup RAILS_ENV=production
+
 
 
 
