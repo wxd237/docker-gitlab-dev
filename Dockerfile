@@ -1,15 +1,19 @@
 FROM ubuntu
 MAINTAINER wxd237@gmail.com
 
+####========================================
+####1. Packages / Dependencies 
 RUN sed -i '/deb-src/d' /etc/apt/sources.list
 RUN sed -i 's/archive.ubuntu.com/mirrors.163.com/g'  /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y sudo 
-RUN apt-get install -y vim
+RUN apt-get install -y sudo  vim
 RUN update-alternatives --set editor /usr/bin/vim.basic
-RUN apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl openssh-server redis-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake nodejs
 RUN apt-get install -y git-core
+
+####========================================
+####2. Ruby
+RUN apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl openssh-server redis-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake nodejs
 RUN mkdir /tmp/ruby && cd /tmp/ruby
 RUN cd /tmp/ruby && curl -L --progress http://ruby.taobao.org/mirrors/ruby/ruby-2.1.6.tar.gz | tar xz
 RUN cd /tmp/ruby/ruby-2.1.6 && ./configure --disable-install-rdoc
@@ -17,11 +21,16 @@ RUN cd /tmp/ruby/ruby-2.1.6 && make install
 RUN gem sources --remove https://rubygems.org/
 RUN  gem sources -a https://ruby.taobao.org/
 RUN gem install bundler --no-ri --no-rdoc
+####========================================
+####3. System Users
 RUN adduser --disabled-login --gecos 'GitLab' git
+####========================================
+####4. Database
 RUN  apt-get install -y postgresql postgresql-client libpq-dev
 RUN apt-get install -y   redis-server
 RUN apt-get install -y  mariadb-server mariadb-client libmariadbclient-dev
 RUN apt-get install -y aptitude
+
 #RUN mysql_secure_installation
 #redis set
 RUN cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
@@ -71,8 +80,9 @@ RUN apt-get install -y nginx
 
 
 
-
-#COPY assets/setup/ /app/setup/
+RUN mkdir  /app
+COPY init /app/init
+RUN chmod +x /app/init
 #RUN chmod 755 /app/setup/install
 #RUN /app/setup/install
 

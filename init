@@ -3,3 +3,24 @@
 service mysql start
 mysqladmin -uroot password root
 
+mysql -uroot -proot<<EOF
+SET storage_engine=INNODB;
+CREATE DATABASE IF NOT EXISTS gitlabhq_production DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, LOCK TABLES ON gitlabhq_production.* TO 'git'@'localhost';
+UPDATE mysql.user SET password=PASSWORD('git') WHERE user='git';
+\q
+EOF
+
+
+service redis-server  start
+
+if [ -d /etc/tmpfiles.d ]; then
+  echo 'd  /var/run/redis  0755  redis  redis  10d  -' | sudo tee -a /etc/tmpfiles.d/redis.conf
+fi
+
+
+sed -i 's/secure password/git/g' /home/git/gitlab/config/database.yml
+
+
+
+
