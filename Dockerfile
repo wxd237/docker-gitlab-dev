@@ -71,6 +71,9 @@ RUN sudo -u git -H chmod o-rwx config/database.yml
 RUN sudo -u git -H sed -i 's/rubygems.org/ruby.taobao.org/g' Gemfile
 RUN sudo -u git -H bundle install --deployment --without development test postgres aws kerberos
 RUN apt-get install -y nginx
+RUN sudo cp lib/support/nginx/gitlab /etc/nginx/sites-available/gitlab
+RUN sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
+RUN unlink /etc/nginx/sites-enabled/default
 
 ##Install GitLab Shell
 RUN sudo -u git -H bundle exec rake gitlab:shell:install[v2.6.3] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production
@@ -101,6 +104,7 @@ RUN chmod +x /app/init
 
 EXPOSE 22
 EXPOSE 80
+EXPOSE 8080
 #EXPOSE 443
 
 #VOLUME ["/home/git/data"]

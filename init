@@ -28,3 +28,7 @@ service nginx  start
 
 
 
+sudo chmod -R ug+rwX,o-rwx /home/git/repositories/
+sudo chmod -R ug-s /home/git/repositories/
+find /home/git/repositories/ -type d -print0 | sudo xargs -0 chmod g+s
+
