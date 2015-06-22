@@ -80,8 +80,8 @@ RUN apt-get install -y nginx
 #COPY assets/init /app/init
 #RUN chmod 755 /app/init
 
-#EXPOSE 22
-#EXPOSE 80
+EXPOSE 22
+EXPOSE 80
 #EXPOSE 443
 
 #VOLUME ["/home/git/data"]
