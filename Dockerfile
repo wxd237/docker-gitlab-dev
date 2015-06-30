@@ -7,7 +7,7 @@ RUN sed -i '/deb-src/d' /etc/apt/sources.list
 RUN sed -i 's/archive.ubuntu.com/mirrors.163.com/g'  /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y sudo  vim
+RUN apt-get install -y sudo  vim vim-rails
 RUN update-alternatives --set editor /usr/bin/vim.basic
 RUN apt-get install -y git-core
 
