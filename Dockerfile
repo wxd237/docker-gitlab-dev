@@ -112,4 +112,4 @@ EXPOSE 8080
 
 WORKDIR /home/git/gitlab
 ENTRYPOINT ["/app/init"]
-#CMD ["app:start"]
+CMD ["app:start"]
